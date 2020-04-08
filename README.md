@@ -5,6 +5,6 @@ On fait un jeu de Tarot, pour apprendre Rust et Amethyst.
 Ce qu'on a appris jusqu'à présent :
 - pas Rust (enfin un peu mais pas trop)
 - pas Amethyst (genre pas du tout)
-- l'excuse est la carte la plus relou à gérer
+- l'excuse est la carte la plus relou à gérer, je sais pas si vous voyez une carte reloue genre très embêtante. Et ba la c'est encore pire, embêtant/20 et encore je reste sympa là.
 
 
