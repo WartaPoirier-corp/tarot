@@ -68,7 +68,7 @@ struct Joueur{
     equipe : Equipe,   
 }
 
-fn range_pli(gagnant_tour: Joueur, cartes_attaque: &mut Vec<Carte>, cartes_defense: &mut Vec<Carte>, cartes_pli : &mut Vec<(Joueur, Carte)>, dernier_tour) {
+fn range_pli(gagnant_tour: Joueur, cartes_attaque: &mut Vec<Carte>, cartes_defense: &mut Vec<Carte>, cartes_pli : &mut Vec<(Joueur, Carte)>) {
     if (Joueur.equipe == Attaque){
         for t in cartes_pli {
             cartes_attaque.push(t.0);
@@ -303,6 +303,7 @@ fn creer_jeu() -> Vec<Carte> {
     }
     jeu
 }
+
 
 fn input(msg: &str) -> String {
     println!("{}", msg);
