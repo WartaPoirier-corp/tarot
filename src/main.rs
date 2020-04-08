@@ -1,4 +1,4 @@
-#[derive(Clone, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 enum Couleur {
     Carreau,
     Pique,
@@ -6,7 +6,7 @@ enum Couleur {
     Coeur,
 }
 
-#[derive(Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
 enum Valeur {
     As,
     Deux,
@@ -24,7 +24,7 @@ enum Valeur {
     Roi,
 }
 
-#[derive(Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
 enum Atout {
     Excuse,
     Un,
@@ -50,7 +50,81 @@ enum Atout {
     VingEtUn,
 }
 
-#[derive(Clone, Eq, PartialEq)]
+macro_rules! c {
+    (Excuse) => { Carte::Atout(Atout::Excuse) };
+    (Atout $a:ident) => { Carte::Atout(Atout::$a) };
+    ($v:ident de $c:ident) => { Carte::CarteNorm(Couleur::$c, Valeur::$v) };
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_creer_jeu() {
+        let jeu = creer_jeu();
+        assert_eq!(jeu.len(), 78);
+        assert_eq!(jeu[10], c!(Valet de Carreau));
+    }
+
+    #[test]
+    fn test_plus_forte_que() {
+        assert!(c!(Roi de Coeur).plus_forte_que(&c!(Dame de Coeur), Couleur::Coeur));
+        assert!(c!(Valet de Coeur).plus_forte_que(&c!(Six de Coeur), Couleur::Coeur));
+        assert!(c!(Deux de Pique).plus_forte_que(&c!(Dame de Coeur), Couleur::Pique));
+        assert!(c!(Atout Vingt).plus_forte_que(&c!(Atout Dix), Couleur::Carreau));
+    }
+
+    #[test]
+    fn test_couleur_demandee() {
+        assert_eq!(couleur_demandee(&[c!(Roi de Coeur), c!(Atout Dix)]), Some(Couleur::Coeur));
+    }
+
+    #[test]
+    fn test_cartes_jouables() {
+        // Si on peut jouer la couleur demandée
+        let jouables = cartes_jouables(
+            &[c!(Trois de Carreau), c!(Six de Carreau), c!(Sept de Carreau)],
+            &[
+                c!(Deux de Carreau),
+                c!(Trois de Coeur),
+                c!(Atout Trois),
+                c!(Atout Douze),
+            ],
+            false,
+            Couleur::Carreau,
+        );
+        assert_eq!(jouables, vec![ c!(Deux de Carreau) ]);
+
+        let jouables = cartes_jouables(
+            &[c!(Trois de Carreau), c!(Six de Carreau), c!(Sept de Carreau)],
+            &[
+                c!(Deux de Carreau),
+                c!(Trois de Coeur),
+                c!(Atout Trois),
+                c!(Atout Douze),
+                c!(Excuse),
+            ],
+            false,
+            Couleur::Carreau,
+        );
+
+        assert_eq!(jouables, vec![ c!(Deux de Carreau), c!(Excuse) ]);
+    }
+
+    #[test]
+    fn test_gagnant_de_tour() {
+        assert_eq!(gagnant_de_tour(&[
+            ("Johan".into(), c!(Atout Quinze)),
+            ("Mathis".into(), c!(Six de Pique)),
+            ("Clara".into(), c!(Sept de Pique)),
+            ("Pénélope".into(), c!(Atout Treize)),
+            ("Théo".into(), c!(Deux de Carreau)),
+        ]), "Johan".to_owned());
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
 enum Carte {
     CarteNorm(Couleur, Valeur),
     Atout(Atout),
@@ -164,9 +238,6 @@ fn gagnant_de_tour(cartes: &[(Joueur, Carte)]) -> Joueur {
         })
         .0
 }
-
-#[test]
-fn test_gagant() {}
 
 fn cartes_jouables(
     cartes_jouees: &[Carte],
