@@ -56,6 +56,30 @@ enum Carte {
     Atout(Atout),
 }
 
+#[derive(Clone, Eq, PartialEq)]
+enum Equipe {
+    Attaque,
+    Defense,
+}
+
+#[derive(Clone, Eq, PartialEq)]
+struct Joueur{
+    pseudo : String,
+    equipe : Equipe,   
+}
+
+fn range_pli(gagnant_tour: Joueur, cartes_attaque: &mut Vec<Carte>, cartes_defense: &mut Vec<Carte>, cartes_pli : &mut Vec<(Joueur, Carte)>, dernier_tour) {
+    if (Joueur.equipe == Attaque){
+        for t in cartes_pli {
+            cartes_attaque.push(t.0);
+        }
+    } else {
+        for t in cartes_pli {
+            cartes_defense.push(t.0);
+        }
+    }
+}*/
+
 impl Carte {
     fn plus_forte_que(&self, autre: &Carte, appelee: Couleur) -> bool {
         match self {
@@ -77,8 +101,6 @@ impl Carte {
         }
     }
 }
-
-type Joueur = String;
 
 fn couleur_demandee(cartes: &[Carte]) -> Option<Couleur> {
     if let Carte::CarteNorm(coul, _) = cartes[0].clone() {
