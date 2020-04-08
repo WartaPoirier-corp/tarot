@@ -69,13 +69,13 @@ struct Joueur{
 }
 
 fn range_pli(gagnant_tour: Joueur, cartes_attaque: &mut Vec<Carte>, cartes_defense: &mut Vec<Carte>, cartes_pli : &mut Vec<(Joueur, Carte)>) {
-    if (Joueur.equipe == Attaque){
+    if gagnant_tour.equipe == Equipe::Attaque{
         for t in cartes_pli {
-            cartes_attaque.push(t.0);
+            cartes_attaque.push(t.1.clone());
         }
     } else {
         for t in cartes_pli {
-            cartes_defense.push(t.0);
+            cartes_defense.push(t.1.clone());
         }
     }
 }
@@ -315,60 +315,4 @@ fn input(msg: &str) -> String {
 fn main() {
     println!("On va jouer au TAROT !!!!");
     let _nb_joueur: i32 = 5; //input("Combien de joueurs ?").parse().unwrap();
-    let jeu = creer_jeu();
-    if jeu.len() == 78 && jeu[10] == Carte::CarteNorm(Couleur::Carreau, Valeur::Valet) {
-        println!("Wow ça pulse");
-    }
-    let atout_vingt = Carte::Atout(Atout::Vingt);
-    let atout_dix = Carte::Atout(Atout::Dix);
-    let roi_de_coeur = Carte::CarteNorm(Couleur::Coeur, Valeur::Roi);
-    if atout_vingt.plus_forte_que(&atout_dix, Couleur::Carreau) {
-        println!("Wow ça pulse");
-    }
-
-    if couleur_demandee(&[roi_de_coeur, atout_dix]) == Some(Couleur::Coeur) {
-        println!("Wow ça pulse");
-    }
-
-    let jouables = cartes_jouables(
-        &[jeu[2].clone(), jeu[5].clone(), jeu[6].clone()],
-        &[
-            jeu[1].clone(),
-            jeu[20].clone(),
-            jeu[50].clone(),
-            jeu[60].clone(),
-        ],
-        false,
-        Couleur::Carreau,
-    );
-    if jouables == vec![jeu[1].clone()] {
-        println!("Wow ça pulse (si on peut jouer la couleur demandée)");
-    }
-
-    let jouables = cartes_jouables(
-        &[jeu[2].clone(), jeu[5].clone(), jeu[6].clone()],
-        &[
-            jeu[1].clone(),
-            jeu[20].clone(),
-            jeu[50].clone(),
-            jeu[60].clone(),
-            jeu[77].clone(),
-        ],
-        false,
-        Couleur::Carreau,
-    );
-    if jouables == vec![jeu[1].clone(), jeu[77].clone()] {
-        println!("Wow ça pulse (si on peut jouer l'excuse)");
-    }
-
-    if gagnant_de_tour(&[
-        ("Johan".into(), jeu[60].clone()),
-        ("Mathis".into(), jeu[20].clone()),
-        ("Clara".into(), jeu[10].clone()),
-        ("Pénélope".into(), jeu[30].clone()),
-        ("Théo".into(), jeu[1].clone()),
-    ]) == "Johan".to_owned()
-    {
-        println!("Wow ça pulse");
-    }
 }
