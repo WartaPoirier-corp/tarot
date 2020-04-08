@@ -130,6 +130,30 @@ enum Carte {
     Atout(Atout),
 }
 
+#[derive(Clone, Eq, PartialEq)]
+enum Equipe {
+    Attaque,
+    Defense,
+}
+
+#[derive(Clone, Eq, PartialEq)]
+struct Joueur{
+    pseudo : String,
+    equipe : Equipe,   
+}
+
+fn range_pli(gagnant_tour: Joueur, cartes_attaque: &mut Vec<Carte>, cartes_defense: &mut Vec<Carte>, cartes_pli : &mut Vec<(Joueur, Carte)>) {
+    if gagnant_tour.equipe == Equipe::Attaque{
+        for t in cartes_pli {
+            cartes_attaque.push(t.1.clone());
+        }
+    } else {
+        for t in cartes_pli {
+            cartes_defense.push(t.1.clone());
+        }
+    }
+}
+
 impl Carte {
     fn plus_forte_que(&self, autre: &Carte, appelee: Couleur) -> bool {
         match self {
@@ -151,8 +175,6 @@ impl Carte {
         }
     }
 }
-
-type Joueur = String;
 
 fn couleur_demandee(cartes: &[Carte]) -> Option<Couleur> {
     if let Carte::CarteNorm(coul, _) = cartes[0].clone() {
@@ -353,6 +375,7 @@ fn creer_jeu() -> Vec<Carte> {
     jeu
 }
 
+
 fn input(msg: &str) -> String {
     println!("{}", msg);
     let mut res = String::new();
@@ -363,6 +386,4 @@ fn input(msg: &str) -> String {
 fn main() {
     println!("On va jouer au TAROT !!!!");
     let _nb_joueur: i32 = 5; //input("Combien de joueurs ?").parse().unwrap();
-
-
 }
