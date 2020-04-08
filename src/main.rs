@@ -78,7 +78,7 @@ fn range_pli(gagnant_tour: Joueur, cartes_attaque: &mut Vec<Carte>, cartes_defen
             cartes_defense.push(t.0);
         }
     }
-}*/
+}
 
 impl Carte {
     fn plus_forte_que(&self, autre: &Carte, appelee: Couleur) -> bool {
