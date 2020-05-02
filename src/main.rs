@@ -115,12 +115,12 @@ mod tests {
     #[test]
     fn test_gagnant_de_tour() {
         assert_eq!(gagnant_de_tour(&[
-            (Joueur { pseudo: "Johan".into(), equipe: Equipe::Attaque }, c!(Atout Quinze)),
-            (Joueur { pseudo: "Mathis".into(), equipe: Equipe::Defense }, c!(Six de Pique)),
-            (Joueur { pseudo: "Clara".into(), equipe: Equipe::Defense }, c!(Sept de Pique)),
-            (Joueur { pseudo: "Pénélope".into(), equipe: Equipe::Defense }, c!(Atout Treize)),
-            (Joueur { pseudo: "Théo".into(), equipe: Equipe::Defense }, c!(Deux de Carreau)),
-        ]).pseudo, "Johan".to_owned());
+            (Joueur::creer("Johan", Equipe::Attaque), c!(Atout Quinze)),
+            (Joueur::creer("Mathis", Equipe::Defense), c!(Six de Pique)),
+            (Joueur::creer("Clara", Equipe::Defense), c!(Sept de Pique)),
+            (Joueur::creer("Pénélope", Equipe::Defense), c!(Atout Treize)),
+            (Joueur::creer("Théo", Equipe::Defense), c!(Deux de Carreau)),
+        ]).pseudo, "Johan");
     }
 }
 
@@ -138,18 +138,29 @@ enum Equipe {
 
 #[derive(Clone, Eq, PartialEq)]
 struct Joueur<'a>{
-    pseudo : String,
+    pseudo : &'a str,
     equipe : Equipe,
-    main : Vec<&Carte>,
+    main : Vec<&'a Carte>,
     plis: Vec<&'a Carte>,
 }
 
-type Table = Vec<(Joueur, Carte)>;
-
-fn range_pli(gagnant_tour: &mut Joueur, table: &Table) {
-        for t in table {
-            gagnant_tour.plis.push(&t.1);
+impl<'a> Joueur<'a> {
+    fn creer(nom: &'a str, eq: Equipe) -> Joueur<'a> {
+        Joueur {
+            pseudo: nom.as_ref(),
+            equipe: eq,
+            main: Vec::new(),
+            plis: Vec::new(),
         }
+    }
+}
+
+type Table<'a> = &'a [(Joueur<'a>, Carte)];
+
+fn range_pli<'a>(gagnant_tour: &'a mut Joueur<'a>, table: Table<'a>) {
+    for t in table {
+        gagnant_tour.plis.push(&t.1);
+    }
 }
 
 impl Carte {
@@ -174,9 +185,9 @@ impl Carte {
     }
 }
 
-fn couleur_demandee(carte: &Carte) -> Option<Couleur> {
-    if let Carte::CarteNorm(coul, _) = carte {
-        Some(coul)
+fn couleur_demandee(carte: &[Carte]) -> Option<Couleur> {
+    if let Carte::CarteNorm(ref coul, _) = carte[0] {
+        Some(coul.clone())
     } else {
         None
     }
@@ -220,11 +231,11 @@ fn atout_max(cartes: &[Carte]) -> Option<Atout> {
     })
 }
 
-fn gagnant_de_tour(table: &Table) -> Joueur {
-    let demandee = couleur_demandee(&table[0].1);
-    cartes
+fn gagnant_de_tour<'a>(table: Table<'a>) -> Joueur<'a> {
+    let demandee = couleur_demandee(&table.iter().map(|x| x.1.clone()).collect::<Vec<_>>()[..]);
+    table
         .iter()
-            .fold(cartes[0].clone(), |gagnant, joueur| {
+            .fold(table[0].clone(), |gagnant, joueur| {
             if gagnant
                 .1
                 .plus_forte_que(&joueur.1, demandee.clone().unwrap_or(Couleur::Carreau))
@@ -254,7 +265,7 @@ fn cartes_jouables(
         Carte::Atout(_) => true,
       }
     } else {
-      let couleur_dem = couleur_demandee(cartes_jouees);
+      let couleur_dem = couleur_demandee(&cartes_jouees);
       if let Some(coul) = couleur_dem {
         if a_couleur(cartes_joueur, Some(coul.clone())) {
           match carte {
