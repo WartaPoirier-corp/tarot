@@ -115,12 +115,12 @@ mod tests {
     #[test]
     fn test_gagnant_de_tour() {
         assert_eq!(gagnant_de_tour(&[
-            ("Johan".into(), c!(Atout Quinze)),
-            ("Mathis".into(), c!(Six de Pique)),
-            ("Clara".into(), c!(Sept de Pique)),
-            ("Pénélope".into(), c!(Atout Treize)),
-            ("Théo".into(), c!(Deux de Carreau)),
-        ]), "Johan".to_owned());
+            (Joueur { pseudo: "Johan".into(), equipe: Equipe::Attaque }, c!(Atout Quinze)),
+            (Joueur { pseudo: "Mathis".into(), equipe: Equipe::Defense }, c!(Six de Pique)),
+            (Joueur { pseudo: "Clara".into(), equipe: Equipe::Defense }, c!(Sept de Pique)),
+            (Joueur { pseudo: "Pénélope".into(), equipe: Equipe::Defense }, c!(Atout Treize)),
+            (Joueur { pseudo: "Théo".into(), equipe: Equipe::Defense }, c!(Deux de Carreau)),
+        ]).pseudo, "Johan".to_owned());
     }
 }
 
