@@ -147,7 +147,7 @@ struct Joueur<'a>{
 impl<'a> Joueur<'a> {
     fn creer(nom: &'a str, eq: Equipe) -> Joueur<'a> {
         Joueur {
-            pseudo: nom.as_ref(),
+            pseudo: nom,
             equipe: eq,
             main: Vec::new(),
             plis: Vec::new(),
