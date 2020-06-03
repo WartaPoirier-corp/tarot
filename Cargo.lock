@@ -3277,6 +3277,18 @@ name = "tarot"
 version = "0.1.0"
 dependencies = [
  "amethyst",
+ "tarot-core",
+]
+
+[[package]]
+name = "tarot-core"
+version = "0.1.0"
+
+[[package]]
+name = "tarot-server"
+version = "0.1.0"
+dependencies = [
+ "tarot-core",
 ]
 
 [[package]]

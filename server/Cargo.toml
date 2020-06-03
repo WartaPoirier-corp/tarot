@@ -1,0 +1,8 @@
+[package]
+name = "tarot-server"
+version = "0.1.0"
+authors = ["Wartapoirier Games"]
+edition = "2018"
+
+[dependencies]
+tarot-core = { path = "../core" }
