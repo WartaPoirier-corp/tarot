@@ -1,4 +1,7 @@
-use amethyst::prelude::*;
+use amethyst::{
+    prelude::*,
+    core::Transform
+};
 
 pub struct Partie;
 
