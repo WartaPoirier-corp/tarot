@@ -13,6 +13,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Install native dependencies
+      run: sudo apt install libalsa-dev libasound2-dev libvulkan1 mesa-vulkan-drivers vulkan-utils
     - name: Build
       run: cargo build --verbose
     - name: Run tests
