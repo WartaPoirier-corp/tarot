@@ -1,3 +1,6 @@
+use rand::seq::SliceRandom;
+use rand::thread_rng;
+
 #[derive(Clone, Debug, PartialEq, Eq)]
 enum Couleur {
     Carreau,
@@ -140,7 +143,7 @@ enum Equipe {
 struct Joueur<'a>{
     pseudo : &'a str,
     equipe : Equipe,
-    main : Vec<&'a Carte>,
+    main : Vec<Carte>,
     plis: Vec<&'a Carte>,
 }
 
@@ -384,6 +387,57 @@ fn creer_jeu() -> Vec<Carte> {
     jeu
 }
 
+enum Mise {
+    Petite,
+    Pousse,
+    Garde,
+    GardeSans,
+    GardeContre,
+    Chelem,
+}
+struct PrePartie<'a> {
+    joueurs : Vec<Joueur<'a>>,
+    chien : Vec<&'a Carte>,
+    mise_mini : Mise,
+}
+
+fn distrib (mut prep : PrePartie) -> PrePartie {
+    //on met le jeu trié en bordel pour le distribuer
+    let mut jeu = creer_jeu();
+    let mut rng = thread_rng();
+    jeu.shuffle(&mut rng);
+
+    //on fait le chien a la zgeg en prenant les premières cartes du jeu en bordel
+    let nb_joueur = prep.joueurs.len();
+    let nb_chien = if nb_joueur == 5 {3} else {6};
+    let mut chien = vec![];
+    for x in 1..=nb_chien {
+        chien.push(jeu[x].clone());
+        jeu.remove(x);
+    }
+    
+    //boucle infinie pour distribuer les cartes 3 par 3 à chaque joueur
+    let mut i = 0;
+    let mut it = jeu.into_iter();
+    loop {
+        let carte1 = it.next();
+        let carte2 = it.next();
+        let carte3 = it.next();
+        
+        if carte1.is_none() {
+            break;
+        }
+        
+        prep.joueurs[i % nb_joueur].main.push(carte1.unwrap());
+        prep.joueurs[i % nb_joueur].main.push(carte2.unwrap());
+        prep.joueurs[i % nb_joueur].main.push(carte3.unwrap());
+        
+        i+=1;
+    }
+     //on renvoie prep #tehc
+    prep
+
+}
 
 fn input(msg: &str) -> String {
     println!("{}", msg);

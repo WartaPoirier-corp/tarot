@@ -3,3 +3,6 @@ name = "tarot-core"
 version = "0.1.0"
 authors = ["Wartapoirier Games"]
 edition = "2018"
+
+[dependencies]
+rand = "0.7"
