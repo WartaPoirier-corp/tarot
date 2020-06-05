@@ -8,9 +8,7 @@ use amethyst::{
     utils::application_root_dir,
 };
 
-pub struct LeJeu; // De sorte à perdre
-
-impl SimpleState for LeJeu {}
+mod States;
 
 fn main() -> amethyst::Result<()> {
     amethyst::start_logger(Default::default());
@@ -31,7 +29,7 @@ fn main() -> amethyst::Result<()> {
     )?;
 
     let assets_dir = app_root.join("assets");
-    let mut game = Application::new(assets_dir, LeJeu, game_data)?;
+    let mut game = Application::new(assets_dir, States::Partie::Partie, game_data)?;
     game.run();
 
     Ok(())
