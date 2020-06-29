@@ -3,6 +3,7 @@ name = "tarot"
 version = "0.1.0"
 authors = ["Wartapoirier Games"]
 edition = "2018"
+default-run = "tarot"
 
 [dependencies]
 amethyst = { version = "0.15", features = ["vulkan"] }
