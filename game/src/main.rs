@@ -8,7 +8,7 @@ use amethyst::{
     utils::application_root_dir,
 };
 
-mod States;
+mod states;
 
 fn main() -> amethyst::Result<()> {
     amethyst::start_logger(Default::default());
@@ -29,7 +29,7 @@ fn main() -> amethyst::Result<()> {
     )?;
 
     let assets_dir = app_root.join("assets");
-    let mut game = Application::new(assets_dir, States::Partie::Partie, game_data)?;
+    let mut game = Application::new(assets_dir, states::game::Partie, game_data)?;
     game.run();
 
     Ok(())
