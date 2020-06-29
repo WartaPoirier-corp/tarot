@@ -1,0 +1,46 @@
+#![enable(implicit_some)]
+Container(
+    transform: (
+        id: "background",
+        anchor: Middle,
+        stretch: XY( x_margin: 0., y_margin: 0., keep_aspect_ratio: false),
+        width: 20.,
+        height: 20.,
+    ),
+    background: SolidColor(0.6, 0.6, 1.0, 0.8),
+    children: [
+        /*Image(
+            transform: (
+                id: "logo",
+                y: 32.,
+                width: 64.,
+                height: 64.,
+                tab_order: 1,
+                anchor: BottomMiddle,
+                mouse_reactive: true,
+            ),
+            image: Texture(File("texture/logo_transparent.png", ("IMAGE", ()))),
+        ),*/
+        // Simple Button
+        Button(
+            transform: (
+                id: "simple_button",
+                x: 250.,
+                y: -40.,
+                z: 11.,
+                width: 128.,
+                height: 64.,
+                tab_order: 9,
+                anchor: TopLeft,
+                mouse_reactive: true,
+            ),
+            button: (
+                text: "Jouer",
+                font: File("fonts/comic.ttf", ("TTF", ())),
+                font_size: 20.,
+                normal_text_color: (0.0, 0.0, 0.0, 1.0),
+                normal_image: SolidColor(0.82, 0.83, 0.83, 1.0),
+            )
+        ),
+    ],
+)

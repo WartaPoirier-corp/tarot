@@ -1,5 +1,5 @@
 (
-    title: "Pong!",
-    dimensions: Some((500, 500)),
-    fullscreen: Some(MonitorIdent(0, "")),
+    title: "Le jeu de tarot",
+    dimensions: Some((1080, 720)),
+    // fullscreen: Some(MonitorIdent(0, "")),
 )
