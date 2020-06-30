@@ -7,7 +7,7 @@ Container(
         width: 20.,
         height: 20.,
     ),
-    background: SolidColor(0.6, 0.6, 1.0, 0.8),
+    background: SolidColor(0., 0., 0., 1.0),
     children: [
         /*Image(
             transform: (
@@ -21,25 +21,24 @@ Container(
             ),
             image: Texture(File("texture/logo_transparent.png", ("IMAGE", ()))),
         ),*/
-        // Simple Button
         Button(
             transform: (
-                id: "simple_button",
-                x: 250.,
-                y: -40.,
+                id: "play_bt",
+                x: 500.,
+                y: -250.,
                 z: 11.,
-                width: 128.,
-                height: 64.,
-                tab_order: 9,
+                width: 500.,
+                height: 100.,
+                tab_order: 1,
                 anchor: TopLeft,
                 mouse_reactive: true,
             ),
             button: (
                 text: "Jouer",
                 font: File("fonts/comic.ttf", ("TTF", ())),
-                font_size: 20.,
+                font_size: 32.,
                 normal_text_color: (0.0, 0.0, 0.0, 1.0),
-                normal_image: SolidColor(0.82, 0.83, 0.83, 1.0),
+                normal_image: SolidColor(0.95, 0.90, 0.10, 1.0),
             )
         ),
     ],
