@@ -6,22 +6,6 @@ use serde::de::DeserializeOwned;
 use serde::export::PhantomData;
 use std::sync::Arc;
 
-/// Serverbound packet (client → server)
-#[derive(Clone, Debug, Deserialize, Serialize)]
-pub enum PacketSb {
-    Ping,
-    Join,
-    // TODO ...
-}
-
-/// Clientbound packet (server → client)
-#[derive(Clone, Debug, Deserialize, Serialize)]
-pub enum PacketCb {
-    PingAnswer(String),
-    Accept,
-    // TODO ...
-}
-
 pub struct Transceiver<Packet: 'static + Send, MPSC> {
     mpsc: MPSC,
 
